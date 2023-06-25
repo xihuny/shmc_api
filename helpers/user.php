@@ -76,7 +76,7 @@ function VerifyOtp()
 function GetUserById($id)
 {
     $data = db_query(
-        'select hash, mobile, account_status from users where user_id=?',
+        'select hash, mobile, account_status, password_hash from users where user_id=?',
         's',
         $id
     );
@@ -90,7 +90,7 @@ function GetUserById($id)
 function GetUserByMobile($mobile)
 {
     $data = db_query(
-        'select hash, mobile, account_status from users where mobile=?',
+        'select hash, mobile, account_status, password_hash from users where mobile=?',
         's',
         $mobile
     );
@@ -104,7 +104,7 @@ function GetUserByMobile($mobile)
 function GetUserByHash($hash)
 {
     $data = db_query(
-        'select hash, mobile, account_status from users where hash=?',
+        'select hash, mobile, account_status, password_hash from users where hash=?',
         's',
         $hash
     );
@@ -159,6 +159,7 @@ function LoginUser()
         }
 
         if (!password_verify($_POST['password'], $user['password_hash'])) {
+            exit($user['password_hash']);
             exit(json_encode(['success' => false, 'code' => 0, 'message' => 'Incorrect password']));
         }
     } else {
