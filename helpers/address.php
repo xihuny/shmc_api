@@ -1,5 +1,5 @@
 <?php
-include_once('../DbHelper.php');
+include_once(realpath('DbHelper.php'));
 
 function FetchAddresses()
 {

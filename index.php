@@ -1,6 +1,7 @@
 <?php
 include_once('DbHelper.php');
 include_once('helpers/user.php');
+include_once('helpers/address.php');
 
 date_default_timezone_set("Indian/Maldives");
 header("Content-Type: application/json; charset=UTF-8");
