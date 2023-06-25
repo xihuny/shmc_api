@@ -42,6 +42,18 @@ function CreateUser()
     exit(json_encode(['success' => true, 'message' => 'user created', 'payload' => GetUserByHash($hash)]));
 }
 
+function VerifyOtp()
+{
+    $data = db_query(
+        'select * from users where hash=? and otp=?',
+        'si',
+        $_POST['hash'],
+        $_POST['otp']
+    );
+
+    return $data->num_rows > 0;
+}
+
 function GetUserById($id)
 {
     $data = db_query(
