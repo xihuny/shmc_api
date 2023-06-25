@@ -14,27 +14,30 @@ function CheckUser()
 function CreateUser()
 {
     $data = db_query(
-        'select * from users where username=?',
+        'select * from users where mobile=?',
         's',
-        $_POST['username']
+        $_POST['mobile']
     );
 
     if ($data->num_rows > 0) {
-        exit(json_encode(['success' => false, 'message' => 'username already exists']));
+        exit(json_encode(['success' => false, 'message' => 'mobile already registered']));
     }
 
     $hash = md5(uniqid(rand(), true));
     $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
+    $otp = mt_rand(1000, 9999);
+
     db_query(
-        'INSERT INTO users (hash, name, address_id, mobile, password_hash) VALUES (?, ?, ?, ?, ?)',
-        'ssiss',
+        'INSERT INTO users (hash, mobile, password_hash, otp) VALUES (?, ?, ?, ?)',
+        'sssi',
         $hash,
-        $_POST['name'],
-        $_POST['address_id'],
         $_POST['mobile'],
-        $passwordHash
+        $passwordHash,
+        $otp
     );
+
+    // send otp
 
     exit(json_encode(['success' => true, 'message' => 'user created', 'payload' => GetUserByHash($hash)]));
 }
@@ -42,7 +45,7 @@ function CreateUser()
 function GetUserById($id)
 {
     $data = db_query(
-        'select * from users where user_id=?',
+        'select hash, mobile, account_status from users where user_id=?',
         's',
         $id
     );
@@ -56,7 +59,7 @@ function GetUserById($id)
 function GetUserByMobile($mobile)
 {
     $data = db_query(
-        'select * from users where mobile=?',
+        'select hash, mobile, account_status from users where mobile=?',
         's',
         $mobile
     );
@@ -70,7 +73,7 @@ function GetUserByMobile($mobile)
 function GetUserByHash($hash)
 {
     $data = db_query(
-        'select * from users where hash=?',
+        'select hash, mobile, account_status from users where hash=?',
         's',
         $hash
     );

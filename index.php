@@ -18,7 +18,7 @@ if (!empty($_POST['task'])) {
             exit(UpdateUser());
             break;
         case 'address-fetch':
-            exit(FetchAddresses());
+            exit(json_encode(FetchAddresses()));
             break;
         default:
             exit(json_encode(['success' => false, 'code' => 1, 'message' => 'invalid task']));
