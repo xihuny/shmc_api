@@ -1,3 +1,11 @@
 <?php
 include_once('../DbHelper.php');
-header("Content-Type: application/json; charset=UTF-8");
+
+function FetchAddresses()
+{
+    $data = db_query(
+        'select * from addresses where active=1'
+    );
+
+    return $data->fetch_all(MYSQLI_ASSOC);
+}
