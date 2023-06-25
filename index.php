@@ -17,12 +17,8 @@ if (!empty($_POST['task'])) {
         case 'user-update':
             exit(UpdateUser());
             break;
-        case 'user-verify-otp':
-            if (VerifyOtp()) {
-                exit(json_encode(['success' => true, 'message' => 'verification success']));
-            } else {
-                exit(json_encode(['success' => false, 'message' => 'verification failed']));
-            }
+        case 'user-verify-mobile':
+            exit(VerifyMobile());
             break;
         case 'address-fetch':
             exit(json_encode(FetchAddresses()));

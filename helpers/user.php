@@ -1,4 +1,7 @@
 <?php
+
+use MessageBird\Resources\Verify;
+
 include_once(realpath('DbHelper.php'));
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -40,6 +43,22 @@ function CreateUser()
     // send otp
 
     exit(json_encode(['success' => true, 'message' => 'user created', 'payload' => GetUserByHash($hash)]));
+}
+
+function VerifyMobile()
+{
+    if (VerifyOtp()) {
+        db_query(
+            'update users set account_status=1 where hash=? and otp=?',
+            'si',
+            $_POST['hash'],
+            $_POST['otp']
+        );
+
+        exit(json_encode(['success' => true, 'message' => 'verification success']));
+    } else {
+        exit(json_encode(['success' => false, 'message' => 'verification failed']));
+    }
 }
 
 function VerifyOtp()
