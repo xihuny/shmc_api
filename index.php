@@ -20,6 +20,9 @@ if (!empty($_POST['task'])) {
         case 'user-verify-mobile':
             exit(VerifyMobile());
             break;
+        case 'user-forgot-password':
+            exit(ForgotPassword());
+            break;
         case 'address-fetch':
             exit(json_encode(FetchAddresses()));
             break;
