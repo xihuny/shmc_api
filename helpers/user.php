@@ -191,7 +191,6 @@ function LoginUser()
         }
 
         if (!password_verify($_POST['password'], $user['password_hash'])) {
-            exit($user['password_hash']);
             exit(json_encode(['success' => false, 'code' => 0, 'message' => 'Incorrect password']));
         }
     } else {
